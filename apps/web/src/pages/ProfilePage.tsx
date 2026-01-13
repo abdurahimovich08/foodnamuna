@@ -103,7 +103,12 @@ export default function ProfilePage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm">
-        {isAdmin && (
+        {isCheckingAdmin && (
+          <div className="w-full flex items-center justify-center p-4 border-b border-gray-100">
+            <span className="text-sm text-gray-500">Tekshirilmoqda...</span>
+          </div>
+        )}
+        {!isCheckingAdmin && isAdmin && (
           <button
             onClick={() => navigate('/admin')}
             className="w-full flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
