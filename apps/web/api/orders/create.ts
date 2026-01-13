@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { verifyInitData, getTelegramUserId } from '../../utils/telegram-auth';
+import { getTelegramUserId } from '../../utils/telegram-auth';
 import { validateOrderRequest } from '../utils/validators';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL!;

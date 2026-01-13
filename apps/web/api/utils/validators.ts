@@ -1,4 +1,19 @@
-import { CreateOrderRequest, CartItem } from '@foodnamuna/shared';
+// Types for order validation
+interface CreateOrderRequest {
+  delivery_mode: 'delivery' | 'pickup';
+  phone: string;
+  address?: string;
+  pickup_branch_id?: string;
+  comment?: string;
+  items: Array<{
+    product_id: string;
+    title: string;
+    price: number;
+    qty: number;
+    addons?: any[];
+    item_comment?: string;
+  }>;
+}
 
 export function validatePhone(phone: string): boolean {
   // Basic phone validation (Uzbekistan format)
