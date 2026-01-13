@@ -17,29 +17,21 @@
 2. `api/menu.ts`
 3. `api/branches.ts`
 4. `api/orders.ts` (birlashtirilgan)
-5. `api/admin/login.ts`
-6. `api/admin/logout.ts`
-7. `api/admin/me.ts`
-8. `api/admin/change-password.ts`
-9. `api/admin/check-telegram.ts`
-10. `api/admin/categories.ts` (birlashtirilgan)
-11. `api/admin/products.ts` (birlashtirilgan)
-12. `api/admin/admin-users.ts` (birlashtirilgan)
-13. `api/admin/orders.ts` (birlashtirilgan)
+5. `api/admin/auth.ts` (birlashtirilgan: login, logout, me, change-password)
+6. `api/admin/check-telegram.ts`
+7. `api/admin/categories.ts` (birlashtirilgan)
+8. `api/admin/products.ts` (birlashtirilgan)
+9. `api/admin/admin-users.ts` (birlashtirilgan)
+10. `api/admin/orders.ts` (birlashtirilgan)
 
-**Jami: 13 ta function** (Hobby plan limiti: 12 ta)
+**Jami: 10 ta function** ✅ (Hobby plan limiti: 12 ta)
 
-## ⚠️ Qolgan Muammo
+## ✅ Muammo Hal Qilindi!
 
-Hali ham 1 ta function ko'p. Qo'shimcha birlashtirish kerak:
+Admin auth endpoint'lari birlashtirildi:
+- ✅ `api/admin/login.ts` + `api/admin/logout.ts` + `api/admin/me.ts` + `api/admin/change-password.ts` → `api/admin/auth.ts`
 
-### Variant 1: Admin Auth'larni Birlashtirish
-- `api/admin/login.ts` + `api/admin/logout.ts` + `api/admin/me.ts` + `api/admin/change-password.ts` → `api/admin/auth.ts`
-- Bu bilan: 13 → 10 ta function
-
-### Variant 2: Pro Plan'ga O'tish
-- Vercel Pro plan'da function limit yo'q
-- Team yaratish orqali Pro plan'ga o'tish
+**Natija: 13 → 10 ta function** ✅ (Hobby plan limiti: 12 ta)
 
 ## 📝 API Endpoint O'zgarishlari
 
@@ -59,3 +51,9 @@ Hali ham 1 ta function ko'p. Qo'shimcha birlashtirish kerak:
 - `/api/orders` - Create (POST)
 - `/api/orders?initData=...` - List (GET)
 - `/api/orders?id=...&initData=...` - Get (GET)
+
+### Admin Auth
+- `/api/admin/auth?action=login` - Login (POST)
+- `/api/admin/auth?action=logout` - Logout (POST)
+- `/api/admin/auth?action=me` - Get Current Admin (GET)
+- `/api/admin/auth?action=change-password` - Change Password (POST)
