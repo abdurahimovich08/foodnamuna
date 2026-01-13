@@ -31,9 +31,9 @@ ADD COLUMN IF NOT EXISTS telegram_id BIGINT UNIQUE;
 -- Create index
 CREATE INDEX IF NOT EXISTS idx_admin_users_telegram_id ON admin_users(telegram_id);
 
--- Update admin user with Telegram ID (10)
+-- Update admin user with Telegram ID (5584607975 - @mdra088)
 UPDATE admin_users 
-SET telegram_id = 10
+SET telegram_id = 5584607975
 WHERE username = '123456789';
 
 -- If doesn't exist, insert
@@ -45,9 +45,9 @@ INSERT INTO admin_users (id, username, password_hash, role, is_active, must_chan
   'owner',
   true,
   true,
-  10
+  5584607975  -- Telegram ID (@mdra088)
 )
-ON CONFLICT (username) DO UPDATE SET telegram_id = 10;
+ON CONFLICT (username) DO UPDATE SET telegram_id = 5584607975;
 ```
 
 ### 2. Environment Variables
@@ -64,7 +64,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 1. **Bot orqali**:
    - Telegram'da botingizga `/start` yuboring
-   - Admin user (ID: 10) uchun "Admin Panel" tugmasi ko'rinadi
+   - Admin user (ID: 5584607975, @mdra088) uchun "Admin Panel" tugmasi ko'rinadi
    - Tugmani bosib admin panelga o'ting
 
 2. **Mini App orqali**:
@@ -74,7 +74,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 ## 🔐 Xavfsizlik
 
-- Faqat `telegram_id = 10` bo'lgan user admin panelga kirishi mumkin
+- Faqat `telegram_id = 5584607975` bo'lgan user admin panelga kirishi mumkin
 - Admin panel hali ham JWT authentication talab qiladi
 - Telegram ID tekshiruvi faqat link ko'rsatish uchun
 
@@ -104,7 +104,7 @@ INSERT INTO admin_users (username, password_hash, role, is_active, telegram_id) 
 ## 🐛 Muammo Bo'lsa
 
 1. **Admin Panel link ko'rinmaydi**:
-   - Database'da `telegram_id = 10` bo'lishini tekshiring
+   - Database'da `telegram_id = 5584607975` bo'lishini tekshiring
    - Browser console'da xatoliklar bor-yo'qligini tekshiring
    - API endpoint `/api/admin/check-telegram` ishlayotganini tekshiring
 

@@ -29,7 +29,7 @@ FROM admin_users
 WHERE telegram_id = 10;
 ```
 
-Natija: 1 qator ko'rinishi kerak (username: 123456789, telegram_id: 10)
+Natija: 1 qator ko'rinishi kerak (username: 123456789, telegram_id: 5584607975)
 
 ---
 
@@ -76,7 +76,7 @@ npm run dev
 #### Test 1: Bot orqali Admin Panel
 
 1. Telegram'da botingizga `/start` yuboring
-2. **Admin user (ID: 10) uchun:**
+2. **Admin user (ID: 5584607975, @mdra088) uchun:**
    - "⚙️ Admin Panel" tugmasi ko'rinishi kerak
    - Tugmani bosing
    - Admin panel ochilishi kerak
@@ -110,7 +110,7 @@ npm run dev
 Browser'da yoki Postman'da:
 
 ```
-GET http://localhost:3000/api/admin/check-telegram?telegram_id=10
+GET http://localhost:3000/api/admin/check-telegram?telegram_id=5584607975
 ```
 
 **Kutilayotgan javob:**
@@ -150,7 +150,7 @@ npm run dev
 **Yechim:**
 1. Database'ni tekshiring:
    ```sql
-   SELECT * FROM admin_users WHERE telegram_id = 10;
+   SELECT * FROM admin_users WHERE telegram_id = 5584607975;
    ```
 
 2. Browser console'ni ochib xatoliklarni tekshiring
@@ -184,7 +184,7 @@ Keyin migration'ni qayta ishga tushiring.
 
 Agar barcha testlar o'tgan bo'lsa:
 
-1. ✅ Bot'da Admin Panel tugmasi ko'rinadi (faqat ID: 10 uchun)
+1. ✅ Bot'da Admin Panel tugmasi ko'rinadi (faqat ID: 5584607975 uchun)
 2. ✅ Mini App'da Profil sahifasida Admin Panel link ko'rinadi
 3. ✅ Admin Panelga kirish mumkin
 4. ✅ API endpoint to'g'ri ishlaydi

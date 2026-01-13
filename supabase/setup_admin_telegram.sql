@@ -28,11 +28,11 @@ END $$;
 -- Step 3: Add comment
 COMMENT ON COLUMN admin_users.telegram_id IS 'Telegram user ID for admin access via bot';
 
--- Step 4: Update existing admin user with Telegram ID (10)
+-- Step 4: Update existing admin user with Telegram ID (5584607975)
 UPDATE admin_users 
-SET telegram_id = 10
+SET telegram_id = 5584607975
 WHERE username = '123456789'
-  AND (telegram_id IS NULL OR telegram_id != 10);
+  AND (telegram_id IS NULL OR telegram_id != 5584607975);
 
 -- Step 5: If admin user doesn't exist, create it with telegram_id
 INSERT INTO admin_users (id, username, password_hash, role, is_active, must_change_password, telegram_id) VALUES
@@ -43,9 +43,9 @@ INSERT INTO admin_users (id, username, password_hash, role, is_active, must_chan
   'owner',
   true,
   true,
-  10  -- Telegram ID
+  5584607975  -- Telegram ID (@mdra088)
 )
-ON CONFLICT (username) DO UPDATE SET telegram_id = 10;
+ON CONFLICT (username) DO UPDATE SET telegram_id = 5584607975;
 
 -- Step 6: Verify
 SELECT 
@@ -55,4 +55,4 @@ SELECT
   telegram_id, 
   is_active 
 FROM admin_users 
-WHERE telegram_id = 10;
+WHERE telegram_id = 5584607975;

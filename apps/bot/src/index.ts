@@ -13,7 +13,7 @@ const bot = new Telegraf(botToken);
 // Start command
 bot.command('start', (ctx) => {
   const userId = ctx.from.id;
-  const isAdmin = userId === 10; // Admin Telegram ID
+  const isAdmin = userId === 5584607975; // Admin Telegram ID (@mdra088)
   
   const buttons: any[] = [
     [

@@ -11,7 +11,7 @@ Supabase SQL Editor'da:
 
 **Tekshirish:**
 ```sql
-SELECT * FROM admin_users WHERE telegram_id = 10;
+SELECT * FROM admin_users WHERE telegram_id = 5584607975;
 ```
 
 ---
@@ -42,7 +42,7 @@ vercel dev
 
 ### Bot Test:
 1. Telegram'da bot'ga `/start` yuboring
-2. **ID: 10** uchun "⚙️ Admin Panel" tugmasi ko'rinishi kerak
+2. **ID: 5584607975 (@mdra088)** uchun "⚙️ Admin Panel" tugmasi ko'rinishi kerak
 3. Tugmani bosing → Admin panel ochilishi kerak
 
 ### Mini App Test:
@@ -52,7 +52,7 @@ vercel dev
 
 ### API Test:
 ```
-GET http://localhost:3000/api/admin/check-telegram?telegram_id=10
+GET http://localhost:3000/api/admin/check-telegram?telegram_id=5584607975
 ```
 
 **Javob:**
