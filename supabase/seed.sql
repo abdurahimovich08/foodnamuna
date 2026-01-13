@@ -12,7 +12,7 @@ INSERT INTO categories (id, restaurant_id, title, sort, is_active) VALUES
 ('10000000-0000-0000-0000-000000000005', '00000000-0000-0000-0000-000000000001', 'Gazaklar', 5, true),
 ('10000000-0000-0000-0000-000000000006', '00000000-0000-0000-0000-000000000001', 'Burger', 6, true),
 ('10000000-0000-0000-0000-000000000007', '00000000-0000-0000-0000-000000000001', 'Ichimliklar', 7, true),
-('10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'Shirinliklar', 8, true),
+('10000000-0000-0000-0000-000000000008', '00000000-0000-0000-0000-000000000001', 'Shirinliklar', 8, true),
 ('10000000-0000-0000-0000-000000000009', '00000000-0000-0000-0000-000000000001', 'Souslar', 9, true)
 ON CONFLICT DO NOTHING;
 
@@ -45,9 +45,9 @@ ON CONFLICT DO NOTHING;
 
 -- Insert products for Ichimliklar category
 INSERT INTO products (id, restaurant_id, category_id, title, description, price, image_url, is_active, sort, tags, rating) VALUES
-('20000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Coca-Cola 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Coca-Cola', true, 1, ARRAY[], 5.0),
-('20000000-0000-0000-0000-000000000013', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Pepsi 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Pepsi', true, 2, ARRAY[], 5.0),
-('20000000-0000-0000-0000-000000000014', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Fanta 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Fanta', true, 3, ARRAY[], 5.0)
+('20000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Coca-Cola 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Coca-Cola', true, 1, ARRAY[]::text[], 5.0),
+('20000000-0000-0000-0000-000000000013', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Pepsi 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Pepsi', true, 2, ARRAY[]::text[], 5.0),
+('20000000-0000-0000-0000-000000000014', '00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000007', 'Fanta 0.5L', 'Sovuq ichimlik', 8000, 'https://via.placeholder.com/300x300?text=Fanta', true, 3, ARRAY[]::text[], 5.0)
 ON CONFLICT DO NOTHING;
 
 -- Insert product addons
