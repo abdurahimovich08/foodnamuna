@@ -1,4 +1,13 @@
-node_modules
-.env.local
-.env.*.local
-*.log
+# Ignore empty directories and non-function files
+api/admin/admin-users/[id]/
+api/admin/categories/
+api/admin/products/
+api/admin/orders/[id]/
+api/orders/
+
+# Ignore utils (not functions)
+api/utils/
+
+# Ignore test files
+**/*.test.ts
+**/*.spec.ts
