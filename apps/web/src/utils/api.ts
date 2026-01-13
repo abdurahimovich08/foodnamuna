@@ -24,24 +24,18 @@ export async function getMenu(restaurantId: string): Promise<CategoryWithProduct
 }
 
 export async function createOrder(order: CreateOrderRequest, initData: string): Promise<Order> {
-  return fetchAPI<Order>('/api/orders/create', {
+  return fetchAPI<Order>('/api/orders', {
     method: 'POST',
     body: JSON.stringify({ ...order, initData }),
   });
 }
 
 export async function getOrders(initData: string): Promise<Order[]> {
-  return fetchAPI<Order[]>('/api/orders/list', {
-    method: 'POST',
-    body: JSON.stringify({ initData }),
-  });
+  return fetchAPI<Order[]>(`/api/orders?initData=${encodeURIComponent(initData)}`);
 }
 
 export async function getOrder(id: string, initData: string): Promise<OrderWithItems> {
-  return fetchAPI<OrderWithItems>(`/api/orders/${id}`, {
-    method: 'POST',
-    body: JSON.stringify({ initData }),
-  });
+  return fetchAPI<OrderWithItems>(`/api/orders?id=${id}&initData=${encodeURIComponent(initData)}`);
 }
 
 export async function getBranches(restaurantId: string): Promise<Branch[]> {
