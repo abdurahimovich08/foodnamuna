@@ -36,14 +36,14 @@ export const adminAuthAPI = {
         must_change_password: boolean;
       };
       token: string;
-    }>('/api/admin/login', {
+    }>('/api/admin/auth?action=login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     });
   },
 
   logout: async () => {
-    return fetchAPI<{ message: string }>('/api/admin/logout', {
+    return fetchAPI<{ message: string }>('/api/admin/auth?action=logout', {
       method: 'POST',
     });
   },
@@ -56,11 +56,11 @@ export const adminAuthAPI = {
         role: 'owner' | 'manager' | 'operator';
         must_change_password: boolean;
       };
-    }>('/api/admin/me');
+    }>('/api/admin/auth?action=me');
   },
 
   changePassword: async (currentPassword: string, newPassword: string) => {
-    return fetchAPI<{ message: string }>('/api/admin/change-password', {
+    return fetchAPI<{ message: string }>('/api/admin/auth?action=change-password', {
       method: 'POST',
       body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
     });
