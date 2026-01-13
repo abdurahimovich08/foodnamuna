@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getMenu } from '../utils/api';
-import { CategoryWithProducts, ProductWithAddons } from '@foodnamuna/shared';
+import { CategoryWithProducts, ProductWithAddons } from '../types';
 import DeliveryModeSelect from '../components/DeliveryModeSelect';
 import CategoryTabs from '../components/CategoryTabs';
 import ProductGrid from '../components/ProductGrid';

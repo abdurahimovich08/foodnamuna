@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TelegramUser } from '@foodnamuna/shared';
+import { TelegramUser } from '../types';
 
 interface UserState {
   user: TelegramUser | null;

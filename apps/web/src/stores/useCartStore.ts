@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { CartItem } from '@foodnamuna/shared';
+import type { CartItem } from '../types';
 
 interface CartState {
   items: CartItem[];

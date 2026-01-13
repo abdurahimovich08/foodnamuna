@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useOrdersStore } from '../stores/useOrdersStore';
-import { formatPrice } from '@foodnamuna/shared';
+import { formatPrice } from '../utils/validators';
+import type { OrderItem } from '../types';
 
 const statusLabels: Record<string, string> = {
   new: 'Yangi',
@@ -100,7 +101,7 @@ export default function OrderDetailPage() {
       <div className="bg-white rounded-lg p-4 shadow-sm">
         <h3 className="font-semibold text-gray-900 mb-3">Mahsulotlar</h3>
         <div className="space-y-3">
-          {currentOrder.items.map((item) => (
+          {currentOrder.items.map((item: OrderItem) => (
             <div key={item.id} className="flex items-center justify-between pb-3 border-b border-gray-100 last:border-0">
               <div className="flex-1">
                 <p className="font-medium text-gray-900">{item.title}</p>

@@ -1,4 +1,4 @@
-import { CategoryWithProducts } from '@foodnamuna/shared';
+import { CategoryWithProducts } from '../types';
 
 interface CategoryTabsProps {
   categories: CategoryWithProducts[];

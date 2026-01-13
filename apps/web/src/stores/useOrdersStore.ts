@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Order, OrderWithItems } from '@foodnamuna/shared';
+import { Order, OrderWithItems } from '../types';
 import { getOrders, getOrder } from '../utils/api';
 import { getTelegramWebApp } from '../utils/telegram';
 

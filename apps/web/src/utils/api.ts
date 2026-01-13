@@ -1,4 +1,4 @@
-import { CategoryWithProducts, CreateOrderRequest, Order, OrderWithItems, Branch } from '@foodnamuna/shared';
+import { CategoryWithProducts, CreateOrderRequest, Order, OrderWithItems, Branch } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 

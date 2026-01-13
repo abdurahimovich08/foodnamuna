@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getBranches } from '../utils/api';
-import { Branch } from '@foodnamuna/shared';
+import { Branch } from '../types';
 import { MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
 const RESTAURANT_ID = import.meta.env.VITE_RESTAURANT_ID || '00000000-0000-0000-0000-000000000001';

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrdersStore } from '../stores/useOrdersStore';
-import { formatPrice } from '@foodnamuna/shared';
+import { formatPrice } from '../utils/validators';
 
 const statusLabels: Record<string, string> = {
   new: 'Yangi',

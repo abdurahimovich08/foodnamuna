@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { ProductWithAddons } from '@foodnamuna/shared';
-import { formatPrice } from '@foodnamuna/shared';
+import { ProductWithAddons } from '../types';
+import { formatPrice } from '../utils/validators';
 
 interface ProductCardProps {
   product: ProductWithAddons;

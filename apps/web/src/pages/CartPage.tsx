@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/useCartStore';
-import { formatPrice } from '@foodnamuna/shared';
+import { formatPrice } from '../utils/validators';
 import QuantityStepper from '../components/QuantityStepper';
 import ItemCommentModal from '../components/ItemCommentModal';
 import { TrashIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
@@ -10,7 +10,6 @@ export default function CartPage() {
   const navigate = useNavigate();
   const {
     items,
-    removeItem,
     updateQuantity,
     updateItemComment,
     clearCart,
@@ -80,7 +79,7 @@ export default function CartPage() {
       </div>
 
       <div className="space-y-3 mb-6">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const itemKey = `${item.product_id}_${item.selected_addons.join(',')}`;
           const comment = getItemComment(item.product_id, item.selected_addons);
 

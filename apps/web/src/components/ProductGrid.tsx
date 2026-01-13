@@ -1,4 +1,4 @@
-import { ProductWithAddons } from '@foodnamuna/shared';
+import { ProductWithAddons } from '../types';
 import ProductCard from './ProductCard';
 
 interface ProductGridProps {

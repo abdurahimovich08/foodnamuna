@@ -1,4 +1,4 @@
-import { TelegramUser } from '@foodnamuna/shared';
+import { TelegramUser } from '../types';
 
 declare global {
   interface Window {

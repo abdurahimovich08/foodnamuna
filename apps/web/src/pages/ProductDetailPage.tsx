@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getMenu } from '../utils/api';
-import { ProductWithAddons, ProductAddon, formatPrice } from '@foodnamuna/shared';
+import { ProductWithAddons, ProductAddon } from '../types';
+import { formatPrice } from '../utils/validators';
 import QuantityStepper from '../components/QuantityStepper';
 import { useCartStore } from '../stores/useCartStore';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -47,8 +48,8 @@ export default function ProductDetailPage() {
       if (selectedAddons.includes(addon.id)) {
         setSelectedAddons(selectedAddons.filter((id) => id !== addon.id));
       } else {
-        const addonCount = selectedAddons.filter((aid) => {
-          const a = product?.addons.find((ad) => ad.id === aid);
+        const addonCount = selectedAddons.filter((aid: string) => {
+          const a = product?.addons.find((ad: ProductAddon) => ad.id === aid);
           return a?.product_id === addon.product_id;
         }).length;
         const maxSelect = addon.max_select || 1;
@@ -62,8 +63,8 @@ export default function ProductDetailPage() {
   const calculateTotal = () => {
     if (!product) return 0;
     let total = product.price;
-    selectedAddons.forEach((addonId) => {
-      const addon = product.addons.find((a) => a.id === addonId);
+    selectedAddons.forEach((addonId: string) => {
+      const addon = product.addons.find((a: ProductAddon) => a.id === addonId);
       if (addon) {
         total += addon.price;
       }
@@ -74,10 +75,10 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!product) return;
 
-    const selectedAddonObjects = product.addons.filter((a) =>
+    const selectedAddonObjects = product.addons.filter((a: ProductAddon) =>
       selectedAddons.includes(a.id)
     );
-    const addonPrice = selectedAddonObjects.reduce((sum, a) => sum + a.price, 0);
+    const addonPrice = selectedAddonObjects.reduce((sum: number, a: ProductAddon) => sum + a.price, 0);
     const itemPrice = product.price + addonPrice;
 
     addItem({
@@ -153,7 +154,7 @@ export default function ProductDetailPage() {
           <div className="mt-4">
             <h3 className="font-medium text-gray-900 mb-3">Qo'shimchalar</h3>
             <div className="space-y-2">
-              {product.addons.map((addon) => {
+              {product.addons.map((addon: ProductAddon) => {
                 const isSelected = selectedAddons.includes(addon.id);
                 return (
                   <label

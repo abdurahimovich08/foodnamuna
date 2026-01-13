@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/useCartStore';
 import { useAppStore } from '../stores/useAppStore';
 import { createOrder } from '../utils/api';
-import { formatPrice } from '@foodnamuna/shared';
+import { formatPrice } from '../utils/validators';
 import { getTelegramWebApp } from '../utils/telegram';
 import { getBranches } from '../utils/api';
-import { Branch } from '@foodnamuna/shared';
+import { Branch } from '../types';
 
 const RESTAURANT_ID = import.meta.env.VITE_RESTAURANT_ID || '00000000-0000-0000-0000-000000000001';
 
