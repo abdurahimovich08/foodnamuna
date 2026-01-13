@@ -15,38 +15,62 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, authStatus } = useUserStore();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isCheckingAdmin, setIsCheckingAdmin] = useState(false);
 
   useEffect(() => {
+    // Reset admin status when user changes
+    setIsAdmin(false);
+    setIsCheckingAdmin(false);
+
     // Check if user is admin by telegram_id
-    if (user?.tg_id) {
+    if (user?.tg_id && authStatus === 'authenticated') {
+      setIsCheckingAdmin(true);
       const API_BASE = import.meta.env.VITE_API_BASE || '';
       const url = `${API_BASE}/api/admin/check-telegram?telegram_id=${user.tg_id}`;
-      console.log('Checking admin status for tg_id:', user.tg_id, 'URL:', url);
+      
+      console.log('[ProfilePage] Checking admin status:', {
+        tg_id: user.tg_id,
+        url,
+        user: user
+      });
       
       fetch(url, {
         method: 'GET',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
         .then((res) => {
-          console.log('Admin check response status:', res.status);
+          console.log('[ProfilePage] Admin check response status:', res.status);
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}`);
           }
           return res.json();
         })
         .then((data) => {
-          console.log('Admin check response data:', data);
-          setIsAdmin(data.is_admin === true);
+          console.log('[ProfilePage] Admin check response data:', data);
+          // Check both is_admin and isAdmin (for compatibility)
+          const adminStatus = data.is_admin === true || data.isAdmin === true;
+          console.log('[ProfilePage] Setting admin status to:', adminStatus);
+          setIsAdmin(adminStatus);
+          setIsCheckingAdmin(false);
         })
         .catch((error) => {
-          console.error('Admin check error:', error);
+          console.error('[ProfilePage] Admin check error:', error);
           setIsAdmin(false);
+          setIsCheckingAdmin(false);
         });
     } else {
-      console.log('No tg_id found in user:', user);
+      console.log('[ProfilePage] Skipping admin check:', {
+        hasUser: !!user,
+        hasTgId: !!user?.tg_id,
+        authStatus
+      });
       setIsAdmin(false);
+      setIsCheckingAdmin(false);
     }
-  }, [user]);
+  }, [user, authStatus]);
 
   const displayName =
     user?.first_name && user?.last_name

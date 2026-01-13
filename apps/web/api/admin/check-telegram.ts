@@ -24,24 +24,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Invalid telegram_id format' });
     }
 
-    console.log('Checking admin for telegram_id:', telegramIdNum);
+    console.log('[check-telegram] Checking admin for telegram_id:', telegramIdNum);
 
     // Check if telegram_id exists in admin_users
     const { data, error } = await supabase
       .from('admin_users')
-      .select('id, username, role, is_active')
+      .select('id, username, role, is_active, telegram_id')
       .eq('telegram_id', telegramIdNum)
       .eq('is_active', true)
-      .single();
+      .maybeSingle(); // Use maybeSingle instead of single to avoid error if not found
 
-    console.log('Admin check result:', { data, error: error?.message });
+    console.log('[check-telegram] Admin check result:', { 
+      data, 
+      error: error?.message,
+      hasData: !!data,
+      telegramId: telegramIdNum
+    });
 
-    if (error || !data) {
+    if (error) {
+      console.error('[check-telegram] Database error:', error);
+      return res.status(200).json({ is_admin: false, error: error.message });
+    }
+
+    if (!data) {
+      console.log('[check-telegram] No admin user found for telegram_id:', telegramIdNum);
       return res.status(200).json({ is_admin: false });
     }
 
+    console.log('[check-telegram] Admin user found:', data);
     return res.status(200).json({
       is_admin: true,
+      isAdmin: true, // Also include isAdmin for compatibility
       admin: {
         id: data.id,
         username: data.username,
