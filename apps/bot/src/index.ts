@@ -12,19 +12,34 @@ const bot = new Telegraf(botToken);
 
 // Start command
 bot.command('start', (ctx) => {
+  const userId = ctx.from.id;
+  const isAdmin = userId === 10; // Admin Telegram ID
+  
+  const buttons: any[] = [
+    [
+      {
+        text: '🍽️ Menyuni ko\'rish',
+        web_app: { url: miniAppUrl },
+      },
+    ],
+  ];
+
+  // Add admin panel button for admin user
+  if (isAdmin) {
+    buttons.push([
+      {
+        text: '⚙️ Admin Panel',
+        web_app: { url: `${miniAppUrl}/admin` },
+      },
+    ]);
+  }
+
   ctx.reply(
     '👋 Salom! Zahratun Food botiga xush kelibsiz!\n\n' +
       'Buyurtma berish uchun quyidagi tugmani bosing:',
     {
       reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: '🍽️ Menyuni ko\'rish',
-              web_app: { url: miniAppUrl },
-            },
-          ],
-        ],
+        inline_keyboard: buttons,
       },
     }
   );

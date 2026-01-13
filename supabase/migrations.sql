@@ -24,8 +24,17 @@ CREATE TABLE IF NOT EXISTS categories (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_categories_restaurant ON categories(restaurant_id);
-CREATE INDEX idx_categories_sort ON categories(sort);
+-- Indexes for categories (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_categories_restaurant') THEN
+    CREATE INDEX idx_categories_restaurant ON categories(restaurant_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_categories_sort') THEN
+    CREATE INDEX idx_categories_sort ON categories(sort);
+  END IF;
+END $$;
 
 -- Products table
 CREATE TABLE IF NOT EXISTS products (
@@ -44,9 +53,21 @@ CREATE TABLE IF NOT EXISTS products (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_products_restaurant ON products(restaurant_id);
-CREATE INDEX idx_products_category ON products(category_id);
-CREATE INDEX idx_products_active ON products(is_active);
+-- Indexes for products (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_products_restaurant') THEN
+    CREATE INDEX idx_products_restaurant ON products(restaurant_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_products_category') THEN
+    CREATE INDEX idx_products_category ON products(category_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_products_active') THEN
+    CREATE INDEX idx_products_active ON products(is_active);
+  END IF;
+END $$;
 
 -- Product addons table
 CREATE TABLE IF NOT EXISTS product_addons (
@@ -61,7 +82,13 @@ CREATE TABLE IF NOT EXISTS product_addons (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_addons_product ON product_addons(product_id);
+-- Index for product_addons (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_addons_product') THEN
+    CREATE INDEX idx_addons_product ON product_addons(product_id);
+  END IF;
+END $$;
 
 -- Telegram users table
 CREATE TABLE IF NOT EXISTS tg_users (
@@ -89,10 +116,25 @@ CREATE TABLE IF NOT EXISTS orders (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_orders_restaurant ON orders(restaurant_id);
-CREATE INDEX idx_orders_tg_user ON orders(tg_id);
-CREATE INDEX idx_orders_status ON orders(status);
-CREATE INDEX idx_orders_created ON orders(created_at DESC);
+-- Indexes for orders (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_orders_restaurant') THEN
+    CREATE INDEX idx_orders_restaurant ON orders(restaurant_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_orders_tg_user') THEN
+    CREATE INDEX idx_orders_tg_user ON orders(tg_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_orders_status') THEN
+    CREATE INDEX idx_orders_status ON orders(status);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_orders_created') THEN
+    CREATE INDEX idx_orders_created ON orders(created_at DESC);
+  END IF;
+END $$;
 
 -- Order items table
 CREATE TABLE IF NOT EXISTS order_items (
@@ -107,7 +149,13 @@ CREATE TABLE IF NOT EXISTS order_items (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_order_items_order ON order_items(order_id);
+-- Index for order_items (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_order_items_order') THEN
+    CREATE INDEX idx_order_items_order ON order_items(order_id);
+  END IF;
+END $$;
 
 -- Branches table (optional, for pickup locations)
 CREATE TABLE IF NOT EXISTS branches (
@@ -122,9 +170,72 @@ CREATE TABLE IF NOT EXISTS branches (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_branches_restaurant ON branches(restaurant_id);
+-- Index for branches (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_branches_restaurant') THEN
+    CREATE INDEX idx_branches_restaurant ON branches(restaurant_id);
+  END IF;
+END $$;
 
--- Add foreign key for pickup_branch_id in orders
-ALTER TABLE orders 
-ADD CONSTRAINT fk_orders_pickup_branch 
-FOREIGN KEY (pickup_branch_id) REFERENCES branches(id);
+-- Add foreign key for pickup_branch_id in orders (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'fk_orders_pickup_branch'
+  ) THEN
+    ALTER TABLE orders 
+    ADD CONSTRAINT fk_orders_pickup_branch 
+    FOREIGN KEY (pickup_branch_id) REFERENCES branches(id);
+  END IF;
+END $$;
+
+-- Admin users table
+CREATE TABLE IF NOT EXISTS admin_users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  role VARCHAR(20) NOT NULL DEFAULT 'operator', -- 'owner', 'manager', 'operator'
+  is_active BOOLEAN DEFAULT true,
+  must_change_password BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Indexes (safe - check if exists first)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_admin_users_username') THEN
+    CREATE INDEX idx_admin_users_username ON admin_users(username);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_admin_users_role') THEN
+    CREATE INDEX idx_admin_users_role ON admin_users(role);
+  END IF;
+END $$;
+
+-- Order status logs table (audit trail)
+CREATE TABLE IF NOT EXISTS order_status_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  admin_id UUID NOT NULL REFERENCES admin_users(id),
+  from_status VARCHAR(50),
+  to_status VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Indexes (safe)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_order_status_logs_order') THEN
+    CREATE INDEX idx_order_status_logs_order ON order_status_logs(order_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_order_status_logs_admin') THEN
+    CREATE INDEX idx_order_status_logs_admin ON order_status_logs(admin_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_order_status_logs_created') THEN
+    CREATE INDEX idx_order_status_logs_created ON order_status_logs(created_at DESC);
+  END IF;
+END $$;
