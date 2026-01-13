@@ -20,14 +20,31 @@ export default function ProfilePage() {
     // Check if user is admin by telegram_id
     if (user?.tg_id) {
       const API_BASE = import.meta.env.VITE_API_BASE || '';
-      fetch(`${API_BASE}/api/admin/check-telegram?telegram_id=${user.tg_id}`)
-        .then((res) => res.json())
+      const url = `${API_BASE}/api/admin/check-telegram?telegram_id=${user.tg_id}`;
+      console.log('Checking admin status for tg_id:', user.tg_id, 'URL:', url);
+      
+      fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+      })
+        .then((res) => {
+          console.log('Admin check response status:', res.status);
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+          return res.json();
+        })
         .then((data) => {
+          console.log('Admin check response data:', data);
           setIsAdmin(data.is_admin === true);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('Admin check error:', error);
           setIsAdmin(false);
         });
+    } else {
+      console.log('No tg_id found in user:', user);
+      setIsAdmin(false);
     }
   }, [user]);
 
