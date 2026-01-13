@@ -1,0 +1,19 @@
+{
+  "name": "foodnamuna",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "cd apps/web && npm run dev",
+    "dev:bot": "cd apps/bot && npm run dev",
+    "build:web": "cd apps/web && npm run build",
+    "build:bot": "cd apps/bot && npm run build",
+    "type-check": "cd packages/shared && npm run type-check"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
