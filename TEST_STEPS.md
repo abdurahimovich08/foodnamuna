@@ -26,7 +26,7 @@
 ```sql
 SELECT id, username, role, telegram_id, is_active 
 FROM admin_users 
-WHERE telegram_id = 10;
+WHERE telegram_id = 5584607975;
 ```
 
 Natija: 1 qator ko'rinishi kerak (username: 123456789, telegram_id: 5584607975)
@@ -89,7 +89,7 @@ npm run dev
 
 1. Bot orqali Mini App'ni oching
 2. Pastki navigatsiyada "Profil" ni bosing
-3. **Admin user (ID: 10) uchun:**
+3. **Admin user (ID: 5584607975, @mdra088) uchun:**
    - "⚙️ Admin Panel" link ko'rinishi kerak
    - Linkni bosing
    - Admin panelga o'tish kerak
