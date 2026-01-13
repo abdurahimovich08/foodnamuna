@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/useUserStore';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react';
 
 const menuItems = [
   { path: '/about', label: 'Biz haqimizda', icon: 'ℹ️' },
@@ -13,6 +14,22 @@ const menuItems = [
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, authStatus } = useUserStore();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if user is admin by telegram_id
+    if (user?.tg_id) {
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
+      fetch(`${API_BASE}/api/admin/check-telegram?telegram_id=${user.tg_id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setIsAdmin(data.is_admin === true);
+        })
+        .catch(() => {
+          setIsAdmin(false);
+        });
+    }
+  }, [user]);
 
   const displayName =
     user?.first_name && user?.last_name
@@ -45,6 +62,18 @@ export default function ProfilePage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm">
+        {isAdmin && (
+          <button
+            onClick={() => navigate('/admin')}
+            className="w-full flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">⚙️</span>
+              <span className="font-medium text-gray-900">Admin Panel</span>
+            </div>
+            <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+          </button>
+        )}
         {menuItems.map((item) => (
           <button
             key={item.path}
