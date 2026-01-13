@@ -37,7 +37,7 @@ export function verifyPassword(password: string, hash: string): boolean {
 }
 
 // Helper to verify bcrypt hash (simplified)
-function verifyBcryptHash(password: string, hash: string): boolean {
+function verifyBcryptHash(_password: string, _hash: string): boolean {
   // In production, use: const bcrypt = require('bcrypt'); return bcrypt.compareSync(password, hash);
   // For Vercel serverless, we need to use bcryptjs or similar
   // This is a placeholder - replace with actual bcrypt verification
