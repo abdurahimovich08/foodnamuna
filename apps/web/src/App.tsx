@@ -29,9 +29,12 @@ function App() {
 
       // Verify and set user
       const initData = tg.initData;
+      console.log('[App] Telegram WebApp found, initData:', initData ? 'present' : 'missing');
+      
       if (initData) {
         verifyTelegramAuth(initData)
           .then((user) => {
+            console.log('[App] Telegram auth result:', user ? 'success' : 'failed', user);
             if (user) {
               setUser(user);
               setAuthStatus('authenticated');
@@ -39,15 +42,35 @@ function App() {
               setAuthStatus('unauthenticated');
             }
           })
-          .catch(() => {
+          .catch((error) => {
+            console.error('[App] Telegram auth error:', error);
             setAuthStatus('unauthenticated');
           });
       } else {
+        console.log('[App] No initData, setting unauthenticated');
         setAuthStatus('unauthenticated');
       }
     } else {
-      // Development mode - no Telegram
-      setAuthStatus('unauthenticated');
+      // Development mode - no Telegram WebApp
+      console.log('[App] Development mode: Telegram WebApp not found');
+      
+      // For development: Check if we should use mock user
+      const devTelegramId = import.meta.env.VITE_DEV_TELEGRAM_ID;
+      if (devTelegramId && import.meta.env.DEV) {
+        console.log('[App] Development mode: Using mock user with telegram_id:', devTelegramId);
+        // Create mock user for development
+        const mockUser = {
+          tg_id: parseInt(devTelegramId, 10),
+          username: 'dev_user',
+          first_name: 'Development',
+          last_name: 'User',
+        };
+        setUser(mockUser);
+        setAuthStatus('authenticated');
+      } else {
+        console.log('[App] Development mode: No mock user configured');
+        setAuthStatus('unauthenticated');
+      }
     }
   }, [setUser, setAuthStatus]);
 
