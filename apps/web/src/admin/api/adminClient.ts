@@ -77,7 +77,7 @@ export const adminOrdersAPI = {
   },
 
   get: async (id: string) => {
-    return fetchAPI<OrderWithItems>(`/api/admin/orders/${id}`);
+    return fetchAPI<OrderWithItems>(`/api/admin/orders?id=${id}`);
   },
 
   updateStatus: async (id: string, toStatus: string) => {
@@ -86,7 +86,7 @@ export const adminOrdersAPI = {
       order_id: string;
       from_status: string;
       to_status: string;
-    }>(`/api/admin/orders/${id}/status`, {
+    }>(`/api/admin/orders?id=${id}&action=status`, {
       method: 'POST',
       body: JSON.stringify({ to_status: toStatus }),
     });
@@ -100,7 +100,7 @@ export const adminCategoriesAPI = {
   },
 
   get: async (id: string) => {
-    return fetchAPI<Category>(`/api/admin/categories/${id}`);
+    return fetchAPI<Category>(`/api/admin/categories?id=${id}`);
   },
 
   create: async (data: {
@@ -121,14 +121,14 @@ export const adminCategoriesAPI = {
     is_active?: boolean;
     image_url?: string;
   }) => {
-    return fetchAPI<Category>(`/api/admin/categories/${id}`, {
+    return fetchAPI<Category>(`/api/admin/categories?id=${id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   },
 
   delete: async (id: string) => {
-    return fetchAPI<{ message: string }>(`/api/admin/categories/${id}`, {
+    return fetchAPI<{ message: string }>(`/api/admin/categories?id=${id}`, {
       method: 'DELETE',
     });
   },
@@ -144,7 +144,7 @@ export const adminProductsAPI = {
   },
 
   get: async (id: string) => {
-    return fetchAPI<Product>(`/api/admin/products/${id}`);
+    return fetchAPI<Product>(`/api/admin/products?id=${id}`);
   },
 
   create: async (data: {
@@ -173,14 +173,14 @@ export const adminProductsAPI = {
     sort?: number;
     tags?: string[];
   }) => {
-    return fetchAPI<Product>(`/api/admin/products/${id}`, {
+    return fetchAPI<Product>(`/api/admin/products?id=${id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   },
 
   delete: async (id: string) => {
-    return fetchAPI<{ message: string }>(`/api/admin/products/${id}`, {
+    return fetchAPI<{ message: string }>(`/api/admin/products?id=${id}`, {
       method: 'DELETE',
     });
   },
@@ -207,14 +207,14 @@ export const adminUsersAPI = {
     role?: 'owner' | 'manager' | 'operator';
     is_active?: boolean;
   }) => {
-    return fetchAPI<AdminUserListItem>(`/api/admin/admin-users/${id}`, {
+    return fetchAPI<AdminUserListItem>(`/api/admin/admin-users?id=${id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   },
 
   resetPassword: async (id: string, newPassword: string) => {
-    return fetchAPI<{ message: string }>(`/api/admin/admin-users/${id}/reset-password`, {
+    return fetchAPI<{ message: string }>(`/api/admin/admin-users?id=${id}&action=reset-password`, {
       method: 'POST',
       body: JSON.stringify({ new_password: newPassword }),
     });
